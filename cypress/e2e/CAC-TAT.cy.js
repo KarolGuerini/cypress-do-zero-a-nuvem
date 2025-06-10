@@ -1,19 +1,20 @@
+/// <reference types="cypress" />
+
 describe('Central de Atendimento ao Cliente TAT', () => {
-  beforeEach(()=>{
+
+  it('verifica o título da aplicação', () => {  //lição 1
+    cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
+  })
+  beforeEach(()=>{  //lição 2
     cy.visit('./src/index.html')
   })
-  it('verifica o título da aplicação', () => {
-    cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
-
-  })
   it('preenche os campos obrigatórios e envia o formulário',()=>{
-    const logText = Cypress._.repeat('abcdefghijklmnopqrstuwxyz', 10)
-
+    const logText = Cypress._.repeat('abcdefghijklmnopqrstuwxyz', 10)//Cypress._.repeat uma biblioteca que repete a string um número de vezes
 
     cy.get('#firstName').type('Karol')
     cy.get('#lastName').type('Guerini')
     cy.get('#email').type('karolteste@exemplo.com')
-    cy.get('#open-text-area').type(logText, {delay: 0})
+    cy.get('#open-text-area').type(logText, {delay: 0})//delay é como se fosse copia e cola
     cy.get('.button[type="submit"]').click()
 
     cy.get('.success').should('be.visible')
@@ -30,7 +31,9 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
   it('campo telefone continua vazio quando preenchido com um valor não numérico', ()=>{
     cy.get('#phone')
+    .as('phone')
     .type('abcde')
+    cy.get('@phone')
     .should('have.value', '')
   })
 
@@ -71,9 +74,9 @@ it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obr
    .should('be.visible')
 })
 
-it.only('envia o formuário com sucesso usando um comando customizado', ()=>{
+it('envia o formuário com sucesso usando um comando customizado', ()=>{
   cy.fillMandatoryFieldsAndSubmit()
-
-  cy.get('.sucess').should('be.visible')
+  
+    cy.get('.success').should('be.visible')
 })
 })
