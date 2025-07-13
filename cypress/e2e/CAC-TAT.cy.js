@@ -37,9 +37,9 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
   it('campo telefone continua vazio quando preenchido com um valor não numérico', ()=>{ //lição 2
     cy.get('#phone')
-    .as('phone')
+    .as('phone')// dando um alias
     .type('abcde')
-    cy.get('@phone')
+    cy.get('@phone')//chamando o alias
     .should('have.value', '')
   })
 
@@ -48,7 +48,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#firstName').type('Karol')
     cy.get('#lastName').type('Guerini')
     cy.get('#email').type('karoltesteexemplo.com')
-    cy.get('#phone-checkbox').click()
+    cy.get('#phone-checkbox').check()
     cy.get('#open-text-area').type('teste')
     cy.contains("button", "Enviar").click()
 
@@ -134,22 +134,57 @@ it('seleciona um produto (Blog) por seu value ', () => {//lição 3
     
 });
 
-it.only('marca o tipo de atendimento "Feedback"', () =>{//lição 4
+it('marca o tipo de atendimento "Feedback" que é do tipo radio', () =>{//lição 4
 cy.get('input[type="radio"][value="feedback"]')
     .check()
 //  cy.get('input[type="radio"]').check('feedback')
   .should('be.checked')
 });
 
-it('marca cada tipo de atendimento', () => {
+it('marca cada tipo de atendimento do tipo radio', () => {
   cy.get('input[type="radio"]')
     .each(typeRadios => {
       cy.wrap(typeRadios)
       .check()
       .should('be.checked')
     })
-    
 });
+
+
+it('marca ambos os checkboxes, depois desmarca o último', () => {
+  cy.get('input[type="checkbox"]').check()
+  .should('be.checked')
+  .last()
+  .uncheck()
+  .should('not.be.checked')   
+});
+
+it('seleciona um arquivo da pasta fixtures  para fazer uoload do arquivo', () => {
+  cy.get('#file-upload')
+    .selectFile('cypress/fixtures/example.json')//passa o arquivo através do caminho dele no projeto
+    .should(input =>{
+      expect(input[0].files[0].name).to.equal('example.json')
+    })
+});
+
+it('seleciona um arquivo simulando um drag and drop', () => {//simula um usuário arrastando o arquivo para fazer o download
+  cy.get('#file-upload')
+  .selectFile('cypress/fixtures/example.json', { action: 'drag-drop'})//passa como argumento um objeto JS com a propriedade action e o valor drag-drop
+  .should(input =>{
+    expect(input[0].files[0].name).to.equal('example.json')
+  })
+});
+
+it('seleciona um arquivo utilizando a funcao fixture para a qual foi dada um alias', () => {
+  cy.fixture("example.json").as('sampleFile')//dando um alias com o comando as e passando um arquivo através da fixture 
+  cy.get('#file-upload')
+  .selectFile('@sampleFile')//chamando o alias
+  .should(input =>{
+    expect(input[0].files[0].name).to.equal('example.json')
+  })
+});
+
+
 })
 
 
