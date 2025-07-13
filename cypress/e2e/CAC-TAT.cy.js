@@ -112,4 +112,44 @@ it('envia o formuário com sucesso usando um comando customizado passando um val
     cy.get('.success')
     .should('be.visible')
 })
+
+it('seleciona um produto (YouTube) por seu texto ', () => {//lição 3
+  cy.get('#product')
+  .select("YouTube")
+  .should("have.value", "youtube")
+    
+});
+
+it('seleciona um produto (Mentoria) por seu value ', () => {//lição 3
+  cy.get('#product')
+  .select("mentoria")
+  .should("have.value", "mentoria")
+    
+});
+
+it('seleciona um produto (Blog) por seu value ', () => {//lição 3
+  cy.get('#product')
+  .select(1)
+  .should("have.value", "blog")
+    
+});
+
+it.only('marca o tipo de atendimento "Feedback"', () =>{//lição 4
+cy.get('input[type="radio"][value="feedback"]')
+    .check()
+//  cy.get('input[type="radio"]').check('feedback')
+  .should('be.checked')
+});
+
+it('marca cada tipo de atendimento', () => {
+  cy.get('input[type="radio"]')
+    .each(typeRadios => {
+      cy.wrap(typeRadios)
+      .check()
+      .should('be.checked')
+    })
+    
+});
 })
+
+
