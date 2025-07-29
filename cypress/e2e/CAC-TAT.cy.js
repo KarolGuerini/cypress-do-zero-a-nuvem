@@ -30,7 +30,6 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.contains("button", "Enviar").click()
     // cy.get('.button[type="submit"]').click() usando o .get para buscar um elemento no DOM e clicar nele
 
-
     cy.get('.error')
     .should('be.visible')
   })
@@ -162,7 +161,7 @@ it('marca ambos os checkboxes, depois desmarca o último', () => {
 it('seleciona um arquivo da pasta fixtures  para fazer uoload do arquivo', () => {
   cy.get('#file-upload')
     .selectFile('cypress/fixtures/example.json')//passa o arquivo através do caminho dele no projeto
-    .should(input =>{
+    .should(input =>{ // input é uma variavel que foi dado para armazenar o elemento file-upload
       expect(input[0].files[0].name).to.equal('example.json')
     })
 });
@@ -175,15 +174,28 @@ it('seleciona um arquivo simulando um drag and drop', () => {//simula um usuári
   })
 });
 
-it('seleciona um arquivo utilizando a funcao fixture para a qual foi dada um alias', () => {
-  cy.fixture("example.json").as('sampleFile')//dando um alias com o comando as e passando um arquivo através da fixture 
+it.only('seleciona um arquivo utilizando a funcao fixture para a qual foi dada um alias', () => {
+  cy.fixture("example.json").as('sampleFile')//passando um arquivo através da fixture e dando um alias (apelido) com o comando "as" 
   cy.get('#file-upload')
-  .selectFile('@sampleFile')//chamando o alias
+  .selectFile('@sampleFile')//chamando o alias (apelido)
   .should(input =>{
     expect(input[0].files[0].name).to.equal('example.json')
   })
 });
 
+it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', () => {
+    cy.contains('a', 'Política de Privacidade')// passa o primeiro argumento a tag 'a' e depois o segundo argumento é o texto que está na tag
+    .should('have.attr', 'href', 'privacy.html')
+    .and('have.attr', 'target', '_blank')
+});
+
+it('acessa a página da política de privacidade removendo o target e então clicando no link', () => {
+        cy.contains('a', 'Política de Privacidade')
+        .invoke('removeAttr', 'target')
+        .click()
+
+        cy.contains('#title', 'CAC TAT - Política de Privacidade')
+});
 
 })
 
