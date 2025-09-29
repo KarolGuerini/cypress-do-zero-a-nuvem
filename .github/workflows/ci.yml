@@ -23,4 +23,4 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests with Cloud
-        run: npx cypress run --record --parallel --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
