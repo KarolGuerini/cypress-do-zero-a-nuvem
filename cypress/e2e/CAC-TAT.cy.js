@@ -10,6 +10,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
   it('preenche os campos obrigatórios e envia o formulário',()=>{ //lição 2
+    cy.clock()
+
     const logText = Cypress._.repeat('abcdefghijklmnopqrstuwxyz', 10)//Cypress._.repeat é uma biblioteca que repete a string um número de vezes
 
     cy.get('#firstName').type('Karol')
@@ -20,8 +22,14 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
     cy.get('.success')
     .should('be.visible')
+
+    cy.tick(3000)
+
+    cy.get('.success').should('not.be.visible')
   })
   it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', ()=>{ //lição 2
+
+    cy.clock()
 
     cy.get('#firstName').type('Karol')
     cy.get('#lastName').type('Guerini')
@@ -32,6 +40,12 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
     cy.get('.error')
     .should('be.visible')
+
+    cy.tick(3000)
+
+    cy.get('.error')
+    .should('not.be.visible')
+
   })
 
   it('campo telefone continua vazio quando preenchido com um valor não numérico', ()=>{ //lição 2
@@ -43,6 +57,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
   it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', ()=>{ //lição 2
+    cy.clock()
 
     cy.get('#firstName').type('Karol')
     cy.get('#lastName').type('Guerini')
@@ -53,6 +68,11 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
     cy.get('.error')
     .should('be.visible')
+
+    cy.tick(3000)
+
+     cy.get('.error')
+    .should('not.be.visible')
   })
 
   it('preenche e limpa os campos nome, sobrenome, email e telefone', ()=>{ //lição 2
@@ -76,18 +96,32 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
 it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', ()=>{ //lição 2
+    cy.clock()
 
     cy.contains("button", "Enviar").click()
 
   cy.get('.error')
    .should('be.visible')
+
+   cy.tick(3000)
+
+   cy.get('.error')
+   .should('not.be.visible')
+
 })
 
 it('envia o formuário com sucesso usando um comando customizado', ()=>{ //lição 2
+      cy.clock()
+
   cy.fillMandatoryFieldsAndSubmit()
   
     cy.get('.success')
     .should('be.visible')
+
+    cy.tick(3000)
+
+     cy.get('.success')
+    .should('not.be.visible')
 })
 
 it('envia o formuário com sucesso usando um comando customizado passando um argumento', ()=>{ //lição 2
