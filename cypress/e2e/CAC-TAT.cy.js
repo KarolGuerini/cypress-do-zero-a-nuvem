@@ -174,7 +174,7 @@ it('seleciona um arquivo simulando um drag and drop', () => {//simula um usuári
   })
 });
 
-it.only('seleciona um arquivo utilizando a funcao fixture para a qual foi dada um alias', () => {
+it('seleciona um arquivo utilizando a funcao fixture para a qual foi dada um alias', () => {
   cy.fixture("example.json").as('sampleFile')//passando um arquivo através da fixture e dando um alias (apelido) com o comando "as" 
   cy.get('#file-upload')
   .selectFile('@sampleFile')//chamando o alias (apelido)
