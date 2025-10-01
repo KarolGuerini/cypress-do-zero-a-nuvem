@@ -265,6 +265,15 @@
       cy.get('@getRequest')
         .its('body')
         .should('include', 'CAC TAT')
+    });
 
+    it.only('encontra o gato escondido', () => {
+        cy.get('#cat')
+          .invoke('show')
+          .should('be.visible')
+        cy.get('#title')
+          .invoke('text', 'CAT TAT') // O .invoke pega o elemento e muda o texto dele
+        cy.get('#subtitle')
+          .invoke('text', 'Eu amo os animais')   
     });
   })
